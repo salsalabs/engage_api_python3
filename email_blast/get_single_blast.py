@@ -4,7 +4,7 @@ import requests
 import json
 import logging
 
-"""Example program for Jon Wheeler at STC. He was interested
+"""Example program for STC. He was interested
 in having a report/database of email stats.  This app built
 that database content."""
 
