@@ -4,7 +4,7 @@ import requests
 import json
 import logging
 
-"""See the JSON for a supporter."""
+"""See the JSON for a supporter using Python3 and no utility classes."""
 
 def readSupporter(token, supporterID):
     """Read a supporter.  Display JSON.
