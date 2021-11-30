@@ -80,7 +80,7 @@ def main():
                              "SUPPORTER_ID"]
 
     parser = argparse.ArgumentParser(
-        description='Tabulate statistics for a single Engage blast')
+        description='Search for transactions by identifier')
     parser.add_argument('--token', action='store', required=True,
                         help='Engage Integration API token')
     parser.add_argument('--identifierType', choices=validTransactionTypes,
