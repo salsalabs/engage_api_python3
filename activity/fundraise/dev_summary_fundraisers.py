@@ -29,10 +29,10 @@ def getActivities():
             "activityIds": activityIds
         }
     }
-    # Needs to be a string before it's submitted.
-    p = json.dumps(payload)
     cmd = '/api/integration/ext/v1/activities/search'
     url = f"{host}{cmd}"
+    # Needs to be a string before it's submitted.
+    p = json.dumps(payload)
     resp = s.post(url, data=p)
     resp.raise_for_status()
     return resp.json()['payload']['activities']
