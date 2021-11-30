@@ -15,7 +15,7 @@ of Engage behaviors.  Tred carefully...
 
 ## Note
 
-Use Python version 3.  Python2 served us well for over 20 years, but not it's gone.
+Use Python version 3.  Python2 served us well for over 20 years, but now it's gone.
 
 ## Question?  Comments?
 
