@@ -58,10 +58,10 @@ def readTransaction(token, identifierType, id, summary):
     dPayload = r.json()['payload']
     if summary:
         transactions = dPayload['transactions']
-        logging.info(f"{'Transaction ID':<36} {'Transaction Date':<24} {'Amount':<7}")
+        logging.info(f"{'Transaction ID':<36}  {'Transaction Date':<24}  {'Transaction Type':<16}  {'Amount':>7}")
         for r in transactions:
             if r['result'] == 'FOUND':
-                logging.info(f"{r['transactionId']} {r['transactionDate']} {r['amount']:6.2f}")
+                logging.info(f"{r['transactionId']}  {r['transactionDate']}  {r['transactionType']:<16}  {r['amount']:7.2f}")
             else:
                 logging.info("No matching trasactions found")
     else:
