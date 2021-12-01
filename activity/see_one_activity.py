@@ -4,8 +4,7 @@ import requests
 import json
 import logging
 
-"""See the JSON for one activity using Python3 and no utility classes."""
-
+"""Standalone Python3 app to see the JSON for one activity."""
 
 def readActivity(token, identifierType, id, summary):
     """Read a activity.  Display JSON.

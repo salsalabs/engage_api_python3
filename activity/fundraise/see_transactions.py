@@ -4,18 +4,25 @@ import requests
 import json
 import logging
 
-"""See the JSON for a transaction using Python3 and no utility classes."""
+"""
+Standalone app to see the JSON for a transactions. The
+user chooses an ID and an ID type.  The app displays
+JSON.  Using --summary creates a single-line summary for 
+each transaction.
 
+This is an API demo.  The app just shows the first 20
+transactions.
+"""
 
 def readTransaction(token, identifierType, id, summary):
-    """Read a transaction.  Display JSON.
+    """Read a transaction.  Display JSON or a single-line summary.
 
     Parameters:
         token           Engage Integration API token
-        identifierType One of the valid indentifer types types:
+        identifierType  One of the valid indentifer types types:
                         "TRANSACTION_ID",
                         "TEMPLATE_ID",
-                        "ACTIVITY_FORM_ID",
+                        "ACTIVITY_FORM_ID", or
                         "SUPPORTER_ID"
         id              ID to use for search
         summary         True for basic transaction information.
