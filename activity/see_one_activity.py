@@ -4,7 +4,7 @@ import requests
 import json
 import logging
 
-"""See the JSON for a activity using Python3 and no utility classes."""
+"""See the JSON for one activity using Python3 and no utility classes."""
 
 
 def readActivity(token, identifierType, id, summary):
@@ -39,7 +39,7 @@ def readActivity(token, identifierType, id, summary):
     # This works really well for the one UUID that we can specify.
     params = {
         "payload": {
-            "activityIds": [id],
+            "activityFormIds": [id],
             "type": identifierType,
             "count": 20,
             "offset": 0
@@ -85,7 +85,7 @@ def main():
                           "FACEBOOK_AD"]
 
     parser = argparse.ArgumentParser(
-        description='Search for activities by activity type')
+        description='Search for one activity')
     parser.add_argument('--token', action='store', required=True,
                         help='Engage Integration API token')
     parser.add_argument('--identifierType', choices=validActivityTypes,
