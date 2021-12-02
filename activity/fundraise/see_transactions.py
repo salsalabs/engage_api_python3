@@ -59,7 +59,7 @@ def readTransaction(token, identifierType, id, summary):
         logging.fatal(json.dumps(json.loads(r.text), indent=4))
         exit(1)
     response = r.json()
-    if "errors" in response.keys():
+    if "errors" in response:
         logging.fatal("Read errors:")
         logging.fatal(json.dumps(response['errors'], indent=4))
     dPayload = r.json()['payload']

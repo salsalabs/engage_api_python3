@@ -82,7 +82,7 @@ def updateStats(r, stats):
         increase(stats, key, r[key])
     # Not all clicks are conversions.  Engage lets us
     # know the places that really were conversions.
-    if "conversionData" in r.keys():
+    if "conversionData" in r.keys:
         for conversion in r['conversionData']:
             increment(stats, 'conversion', conversion['activityName'])
 
@@ -101,7 +101,7 @@ def handleDomain(r, data):
         returns the updated data record
     """
 
-    if 'supporterEmail' in r.keys():
+    if "supporterEmail" in r.keys:
         key = r['supporterEmail'].split("@")[1]
         if key not in data['domain'].keys():
             data['domain'][key] = newStats()
@@ -122,7 +122,7 @@ def handleSplit(r, data):
     """
 
     key = ""
-    if 'splitName' in r.keys():
+    if "splitName" in r.keys:
         key = r['splitName']
     if key not in data['splitName'].keys():
         data['splitName'][key] = newStats()
@@ -143,7 +143,7 @@ def handleStatus(r, data):
     """
 
     key = ""
-    if 'status' in r.keys():
+    if "status" in r.keys:
         key = r['status']
     if key not in data['status'].keys():
         data['status'][key] = newStats()
