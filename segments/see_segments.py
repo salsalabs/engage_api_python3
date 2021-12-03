@@ -36,6 +36,7 @@ def run(args):
         'content-type': 'application/json'
     }
 
+    # Specify the segment ID list and the type.
     payload = {
         "payload": {
             "identifiers": segmentIDs,
@@ -43,16 +44,7 @@ def run(args):
         }
     }
 
-    #while count > 0:
-    # TODO: Report this as a bug. In the doc, but we see 
-    #    payload['offset'] = offset
-    #    payload['count'] = count
-    # {"payload": {"identifiers": ["2828b7f0-f2cf-455b-bcbe-7a1fa466978f"], "identifierType": "SEGMENT_ID", "includeSegmentCounts": true}, "count": 20}
-    # 2021-12-03 11:26:59,902 error: HTTP status code 400
-    # 2021-12-03 11:26:59,902 Unrecognized field &quot;count&quot; (class com.salsalabs.ignite.hq.api.model.integration.ext_v1.APIIntegrationRequest), not marked as ignorable
-
-    # Somewhere, there's a presumption that the list of segments will be shorter
-    # that the maximum batch count.  TODO: Study.
+    # Fetch the results from Engage.
     body = json.dumps(payload)
     r = requests.post(endpoint, headers = headers, data = body)
 
@@ -65,11 +57,12 @@ def run(args):
         logging.fatal(s)
         exit(1)
     response = r.json()
-#    count = response['count']
 
-#   if count > 0:
-    dPayload = response["payload"]
-    segments =  dPayload["segments"]
+    # Extract the segments from the response payload.
+    rPayload = response["payload"]
+    segments =  rPayload["segments"]
+
+    # Handle each segment.
     for s in segments:
         if "errors" in s:
             showErrors(s)
@@ -77,7 +70,6 @@ def run(args):
             showWarnings(s)
         else:
             showContent(s)
-
    
 def showErrors(s):
     """ Display segment-level errors."""
@@ -101,6 +93,9 @@ def showCommon(s, t):
 
 def showContent(s):
     """ Display segment ID, name and count."""
+
+    # Engage does not include fields in the payload if
+    # they are empty in the database.
     if "name" in s:
         name = s["name"]
     else:
