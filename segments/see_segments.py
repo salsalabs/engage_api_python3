@@ -39,8 +39,7 @@ def run(args):
     payload = {
         "payload": {
             "identifiers": segmentIDs,
-            "identifierType": "SEGMENT_ID",
-            "includeSegmentCounts": True
+            "identifierType": "SEGMENT_ID"
         }
     }
 
@@ -98,7 +97,7 @@ def showCommon(s, t):
         s       dict    Segment record
         t       string  Text to display
     """
-    logging.info(f"{s['segmentId']} {t}")
+    print(f"{s['segmentId']} {t}")
 
 def showContent(s):
     """ Display segment ID, name and count."""
@@ -111,7 +110,7 @@ def showContent(s):
     else:
         totalMembers = "(None)"
 
-    showCommon(s, f"{s['segmentId']} {name:50} {totalMembers:>7}")
+    showCommon(s, f"{name:50} {totalMembers:>7}")
  
 def main():
     """
