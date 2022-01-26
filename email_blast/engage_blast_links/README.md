@@ -37,7 +37,7 @@ cd engage_blast_links
 If you get here without any egregious errors, then proceed at best speed to the section
 labeled "Configuration".
 
-#Prerequisites
+# Prerequisites
 
 This is a checklist of the things that you _must have_ before you install this application.
 If you do not have any items in this list then STOP.  Get help from one of the technical types
