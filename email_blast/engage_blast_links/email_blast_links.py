@@ -37,7 +37,7 @@ args = parser.parse_args()
 if args.loginFile == None:
     print("Error: --login is REQUIRED.")
     exit(1)
-cred = yaml.load(open(args.loginFile))
+cred = yaml.load(open(args.loginFile), Loader=yaml.SafeLoader)
 
 devHost = 'dev-api.salsalabs.org'
 if 'devHost' in cred:
