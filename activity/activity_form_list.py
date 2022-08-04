@@ -67,7 +67,7 @@ def listActivities(token, writer):
 		logging.fatal("Error: could not retrieve activity type list")
 		exit(1)
 	formType = ','.join(activityTypes)
-	columns = "type,dateCreated,datePublished,status,visibility,type,name".split(",")
+	columns ="id,dateCreated,datePublished,status,visibility,type,name".split(",")
 	writer.writerow(columns)
 	while count > 0:
 		queries = f"?types={formType}&sortField={sortField}&sortOrder={sortOrder}&count={count}&offset={offset}"
@@ -101,7 +101,7 @@ def listActivities(token, writer):
 				r['type'],
 				r['name']]
 			writer.writerow(row)
-			offset = offset + count
+		offset = offset + count
 
 def main():
 	"""Program entry point. Uses a user-provided id, retrieves
