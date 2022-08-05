@@ -1,5 +1,6 @@
 import json
 import requests
+import time
 import urllib
 
 from urllib.parse import urlunsplit
@@ -25,7 +26,16 @@ class EngageNet:
 					 method="POST",
 					 request=rqt,
 					 token=token)
+		or
 
+		from pkg.net import EngageNet
+		request = {
+			"endpoint": "/api/integration/ext/v1/activities/search",
+			"method": "POST",
+			"request": rqt,
+			"token": token
+		}
+		net = Engage(**request)
 		"""
 
 		self.endpoint = None
@@ -65,13 +75,32 @@ class EngageNet:
 
 		parts = ('https', self.host, self.endpoint, None, None)
 		url = urlunsplit(parts)
+		complete = False
+		response = None
 
-		if self.method == 'POST':
-			response = requests.post(url=url, data=self.request)
-		else:
-			response = self.session.get(url, params=self.request)
+		while not complete:
+			if self.method == 'POST':
+				response = requests.post(url=url, json=self.request, headers=self.session.headers)
+			else:
+				response = self.session.get(url, params=self.request)
 
-		if response.status_code != 200:
-			raise Exception("HTTP Status " + str(response.status_code), url)
+			needNap = False
+			if response.status_code != 200:
+				if response.status_code == 429:
+					print("EngageNet: HTTP status 429, waiting for a bit")
+					print("EngageNet: ", response.text)
+					needNap = True
+				else:
+					raise Exception("HTTP Status " + str(response.status_code), url)
+			else:
+				if "Your per minute call rate" in response.text:
+					print("EngageNet: found raw call rate message")
+					needNap = True
+				else:
+					complete = True
+			if needNap:
+				print("EngageNet: napping...")
+				time.sleep(30)
+
 		s = response.text
 		return json.loads(s)
