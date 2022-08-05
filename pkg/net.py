@@ -80,21 +80,23 @@ class EngageNet:
 
 		while not complete:
 			if self.method == 'POST':
-				response = requests.post(url=url, json=self.request, headers=self.session.headers)
+				response = self.session.post(url=url, json=self.request)
 			else:
 				response = self.session.get(url, params=self.request)
 
 			needNap = False
 			if response.status_code != 200:
 				if response.status_code == 429:
-					print("EngageNet: HTTP status 429, waiting for a bit")
-					print("EngageNet: ", response.text)
-					needNap = True
+					if "Requested batch size exceeds the allowed size" in response.text:
+						raise Exception(f"EngageNet: HTTP status 429, {response.text}")
+					else:
+						print(f"EngageNet: HTTP status 429, {response.text}")
+						needNap = True
 				else:
-					raise Exception("HTTP Status " + str(response.status_code), url)
+					raise Exception(f"HTTP Status {response.status_code}, {url}")
 			else:
 				if "Your per minute call rate" in response.text:
-					print("EngageNet: found raw call rate message")
+					print("EngageNet: Warning: {response.text}")
 					needNap = True
 				else:
 					complete = True
