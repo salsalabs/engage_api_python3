@@ -10,11 +10,11 @@ from pkg.net import EngageNet
    results as a CSV. Each line of the CSV is an action and contains
    the usual information that clients want to see."""
 
-def listActivityTypes(token):
+def listActivityTypes(webToken):
 	"""Return a list of valid activity types
 
 	Parameters:
-		token  	access token for Engage Web Developer API
+		webToken  	Engage Web Developer API token
 
 	Errors:
 		HTTP errors are also noisily fatal.
@@ -25,7 +25,7 @@ def listActivityTypes(token):
 	params = {
 	    'endpoint': 'api/developer/ext/v1/activities/types',
 	    'host': 'api.salsalabs.org',
-	    'token': token,
+	    'token': webToken,
 	    'method': 'GET',
 	    'request': ""
 	}
@@ -36,12 +36,13 @@ def listActivityTypes(token):
 	t = list((s['code'] for s in r))
 	return t
 
-def listActivities(token, writer):
+def listActivities(intToken, webToken, writer):
 	"""Read a list of activity. Write typically useful information
 		to a CSV file.
 
 	Parameters:
-		token       Engage Integration API token
+		intToken    Engage Integration API token
+		webToken	Engage Web Developer API token
 		writer		CSV writer to receive output
 
 	Errors:
@@ -49,7 +50,7 @@ def listActivities(token, writer):
 		Engage-specific errors are also noisily fatal.
 	"""
 
-	activityTypes = listActivityTypes(token)
+	activityTypes = listActivityTypes(webToken)
 	if activityTypes == None:
 		logging.fatal('Error: could not retrieve activity type list')
 		exit(1)
@@ -69,7 +70,7 @@ def listActivities(token, writer):
 		params = {
 		    'endpoint': 'api/developer/ext/v1/activities',
 		    'host': 'api.salsalabs.org',
-		    'token': token,
+		    'token': webToken,
 		    'method': 'GET',
 		    'request': queries
 		}
@@ -93,6 +94,7 @@ def listActivities(token, writer):
 				r['visibility'],
 				r['type'],
 				r['name']]
+			(print row)
 			writer.writerow(row)
 		offset = offset + count
 
@@ -103,13 +105,15 @@ def main():
 	logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 	parser = argparse.ArgumentParser(
 		description='See list of forms for an form type')
-	parser.add_argument('--token', action='store', required=True,
+	parser.add_argument("--intToken", action='store', required=True,
 						help='Engage Integration API token')
+	parser.add_argument('--webToken', action='store', required=True,
+						help='Engage Web Developer API token')
 
 	args = parser.parse_args()
 	with open('activity_list.csv', 'w') as f:
 		w = csv.writer(f)
-		listActivities(args.token, w)
+		listActivities(args.intToken, args.webToken, w)
 		f.flush()
 		f.close()
 
