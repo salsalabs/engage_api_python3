@@ -98,7 +98,7 @@ def getLastActionDate(token, batchSize, activity):
 		payload['payload']['count'] = p['count']
 	return lastActionDate
 
-def listActivityForms(intToken, webToken, batchSize, writer):
+def listActivityForms(intToken, webToken, batchSize, defOffset, writer):
 	"""Read a list of activity forms. Write typically useful information
 		to a CSV file.
 
@@ -106,6 +106,7 @@ def listActivityForms(intToken, webToken, batchSize, writer):
 		intToken   	Engage Integration API token
 		webToken   	Engage Web Develper API token
 		batchSize	number of records per batch, typically 20. Can be more.
+		defOffset	start reading at this offset.
 		writer		CSV writer to receive output
 
 	Errors:
@@ -128,8 +129,8 @@ def listActivityForms(intToken, webToken, batchSize, writer):
 	writer.writerow(columns)
 
 	count = batchSize
-	offset = 0
-	while count > 0:
+	offset = defOffset
+	while count == batchSize:
 		queries = {
 			'formType': ','.join(activityTypes),
 			'sortOrder': 'ASCENDING',
@@ -183,11 +184,14 @@ def main():
 	parser.add_argument('--batchSize', action='store', required=False,
 						type=int, default=20,
 						help="Number of records per batch, typically 20")
+	parser.add_argument('--offset', action='store', required=False,
+						type=int, default=0,
+						help="Start reading at this offset. Helpful for outages.")
 
 	args = parser.parse_args()
 	with open('activity_usage.csv', 'w') as f:
 		w = csv.writer(f)
-		listActivityForms(args.intToken, args.webToken, args.batchSize, w)
+		listActivityForms(args.intToken, args.webToken, args.batchSize, args.offset, w)
 		f.flush()
 		f.close()
 
