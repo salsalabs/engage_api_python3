@@ -94,7 +94,6 @@ def listActivities(intToken, webToken, writer):
 				r['visibility'],
 				r['type'],
 				r['name']]
-			(print row)
 			writer.writerow(row)
 		offset = offset + count
 
