@@ -1,3 +1,8 @@
+# Data.
+*.yaml
+*.csv
+*/*.csv
+
 # Client stuff that doesn't get checked in
 client_apps/*
 
