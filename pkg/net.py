@@ -72,6 +72,9 @@ class Invoker:
 		Arguments:
 		endpoint -- API endpoint object
 
+		:returns:
+		Returns the response payload
+
 		:raises:
 		NameError: missing parameters
 		ValueError: invalid JSON in the request
@@ -141,5 +144,4 @@ class Invoker:
 				print("Invoker: napping...")
 				time.sleep(30)
 
-		# s = response.text
-		return response.json()
+		return response.json()['payload']
